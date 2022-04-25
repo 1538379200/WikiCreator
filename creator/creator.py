@@ -11,11 +11,11 @@ wiki_header = {"Authorization":"Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJh
 
 def create_markdown(content, desc, path, tags, title):
     file_data = {"query": 'mutation{pages{create(content: """%s""",description: "%s",editor: "markdown",isPublished: true,isPrivate: false,locale: "zh",path: "%s",publishEndDate: "",publishStartDate: "",scriptCss: "",scriptJs: "",tags: "%s",title: "%s",){responseResult{succeeded errorCode slug message}}}}'%(content, desc, path, tags, title)}
-    res = requests.post(url='http://39.98.138.157:8989/graphql', json=file_data, headers=wiki_header)
+    res = requests.post(url='http://yourip/graphql', json=file_data, headers=wiki_header)
     return res
 
 def upload_pic(file):
-    url = 'http://39.98.138.157:8989/u'
+    url = 'http://yourip/u'
     data = {'mediaUpload': '{"folderId":1}'}
     if '\\' in file:
         split_txt = '\\'
@@ -32,7 +32,7 @@ def upload_pic(file):
 def get_path():
     need_path = []
     all_path = []
-    wiki_db = psycopg2.connect(database='wiki', user='wikijs', password='wikijsrocks', host='39.98.138.157', port='5432')
+    wiki_db = psycopg2.connect(database='wiki', user='wikijs', password='wikijsrocks', host='yourip', port='5432')
     cur = wiki_db.cursor()
     cur.execute('select p."path" from pages p;')
     rows = cur.fetchall()
